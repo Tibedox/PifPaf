@@ -20,7 +20,7 @@ public class ScreenGame implements Screen {
 
     Texture imgBackGround;
     Texture imgShipsAtlas;
-    TextureRegion imgShip;
+    TextureRegion[] imgShip = new TextureRegion[12];
 
     PifPafButton btnExit;
 
@@ -36,7 +36,9 @@ public class ScreenGame implements Screen {
 
         imgBackGround = new Texture("space2.png");
         imgShipsAtlas = new Texture("ships_atlas.png");
-        imgShip = new TextureRegion(imgShipsAtlas, 0, 0, 400, 400);
+        for (int i = 0; i < imgShip.length; i++) {
+            imgShip[i] = new TextureRegion(imgShipsAtlas, (i<7?i:12-i)*400, 0, 400, 400);
+        }
 
         btnExit = new PifPafButton("x", font, 850, 1600);
 
@@ -64,12 +66,13 @@ public class ScreenGame implements Screen {
 
         // события
         for (Space s: space) s.move();
+        ship.move();
 
         // отрисовка
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         for(Space s: space) batch.draw(imgBackGround, s.x, s.y, s.width, s.height);
-        batch.draw(imgShip, ship.scrX(), ship.scrY(), ship.width, ship.height);
+        batch.draw(imgShip[ship.phase], ship.scrX(), ship.scrY(), ship.width, ship.height);
         btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
         batch.end();
     }
