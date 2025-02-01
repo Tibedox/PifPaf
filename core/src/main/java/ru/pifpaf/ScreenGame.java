@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
 public class ScreenGame implements Screen {
@@ -18,10 +19,13 @@ public class ScreenGame implements Screen {
     BitmapFont font;
 
     Texture imgBackGround;
+    Texture imgShipsAtlas;
+    TextureRegion imgShip;
 
     PifPafButton btnExit;
 
     Space[] space = new Space[2];
+    Ship ship;
 
     ScreenGame(Main main){
         batch = main.batch;
@@ -31,11 +35,14 @@ public class ScreenGame implements Screen {
         this.main = main;
 
         imgBackGround = new Texture("space2.png");
+        imgShipsAtlas = new Texture("ships_atlas.png");
+        imgShip = new TextureRegion(imgShipsAtlas, 0, 0, 400, 400);
 
-        btnExit = new PifPafButton("Exit", font, 300, 600);
+        btnExit = new PifPafButton("x", font, 850, 1600);
 
         space[0] = new Space(0, 0);
         space[1] = new Space(0, SCR_HEIGHT);
+        ship = new Ship(SCR_WIDTH/2, 150);
     }
 
     @Override
@@ -62,7 +69,7 @@ public class ScreenGame implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         for(Space s: space) batch.draw(imgBackGround, s.x, s.y, s.width, s.height);
-        font.draw(batch, "Game", 400, 1000);
+        batch.draw(imgShip, ship.scrX(), ship.scrY(), ship.width, ship.height);
         btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
         batch.end();
     }
