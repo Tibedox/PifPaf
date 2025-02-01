@@ -29,7 +29,7 @@ public class ScreenGame implements Screen {
         font = main.font;
         this.main = main;
 
-        imgBackGround = new Texture("space1.png");
+        imgBackGround = new Texture("space2.png");
 
         btnExit = new PifPafButton("Exit", font, 300, 600);
     }
