@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class ScreenSettings implements Screen {
     SpriteBatch batch;
@@ -44,12 +42,6 @@ public class ScreenSettings implements Screen {
         btnJoystick = new PifPafButton("Joystick Right", fontGray, 200, 1000);
         btnAccelerometer = new PifPafButton("Accelerometer", fontGray, 200, 900);
         btnBack = new PifPafButton("Back", fontWhite, 200);
-
-        Touchpad.TouchpadStyle touchpadStyle = new Touchpad.TouchpadStyle();
-        touchpadStyle.background = new TextureRegionDrawable(new Texture("libgdx.png"));
-        touchpadStyle.knob = new TextureRegionDrawable(new Texture("libgdx.png"));
-        Touchpad touchpad = new Touchpad(0, touchpadStyle);
-        touchpad.getKnobPercentX();
     }
 
     @Override
