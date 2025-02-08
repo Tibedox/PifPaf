@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Main extends Game {
     public static final float SCR_WIDTH = 900, SCR_HEIGHT = 1600;
+    public static final int SCREEN = 0, JOYSTICK_RIGHT = 1, JOYSTICK_LEFT = 2, ACCELEROMETER = 3;
+    public static int controls = SCREEN;
 
     public SpriteBatch batch;
     public OrthographicCamera camera;

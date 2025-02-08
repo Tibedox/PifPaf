@@ -1,9 +1,9 @@
 package ru.pifpaf;
 
-import static ru.pifpaf.Main.SCR_HEIGHT;
-import static ru.pifpaf.Main.SCR_WIDTH;
+import static ru.pifpaf.Main.*;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -61,16 +61,21 @@ public class ScreenSettings implements Screen {
                 btnScreen.changeFont(fontWhite);
                 btnJoystick.changeFont(fontGray);
                 btnAccelerometer.changeFont(fontGray);
+                controls = SCREEN;
             }
             if(btnJoystick.hit(touch)){
                 btnScreen.changeFont(fontGray);
                 btnJoystick.changeFont(fontWhite);
                 btnAccelerometer.changeFont(fontGray);
+                controls = JOYSTICK_RIGHT;
             }
             if(btnAccelerometer.hit(touch)){
-                btnScreen.changeFont(fontGray);
-                btnJoystick.changeFont(fontGray);
-                btnAccelerometer.changeFont(fontWhite);
+                if(Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer)) {
+                    btnScreen.changeFont(fontGray);
+                    btnJoystick.changeFont(fontGray);
+                    btnAccelerometer.changeFont(fontWhite);
+                    controls = ACCELEROMETER;
+                }
             }
             if(btnBack.hit(touch)){
                 main.setScreen(main.screenMenu);

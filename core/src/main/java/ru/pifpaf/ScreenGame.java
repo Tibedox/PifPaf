@@ -64,6 +64,10 @@ public class ScreenGame implements Screen {
                 main.setScreen(main.screenMenu);
             }
         }
+        if(controls == ACCELEROMETER){
+            ship.vx = -Gdx.input.getAccelerometerX()*2;
+            ship.vy = -Gdx.input.getAccelerometerY()*2;
+        }
 
         // события
         for (Space s: space) s.move();
@@ -124,7 +128,9 @@ public class ScreenGame implements Screen {
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             touch.set(screenX, screenY, 0);
             camera.unproject(touch);
-            ship.touch(touch);
+            if(controls == SCREEN) {
+                ship.touch(touch);
+            }
             return false;
         }
 
@@ -142,7 +148,9 @@ public class ScreenGame implements Screen {
         public boolean touchDragged(int screenX, int screenY, int pointer) {
             touch.set(screenX, screenY, 0);
             camera.unproject(touch);
-            ship.touch(touch);
+            if(controls == SCREEN) {
+                ship.touch(touch);
+            }
             return false;
         }
 
