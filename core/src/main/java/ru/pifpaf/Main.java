@@ -27,7 +27,7 @@ public class Main extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
         touch = new Vector3();
-        font = new BitmapFont(Gdx.files.internal("heffer80.fnt"));
+        font = new BitmapFont(Gdx.files.internal("comic70.fnt"));
 
         screenMenu = new ScreenMenu(this);
         screenGame = new ScreenGame(this);
