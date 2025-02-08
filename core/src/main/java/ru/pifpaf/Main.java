@@ -33,7 +33,7 @@ public class Main extends Game {
         touch = new Vector3();
         fontWhite = new BitmapFont(Gdx.files.internal("gardens80white.fnt"));
         fontYellow = new BitmapFont(Gdx.files.internal("gardens80yellow.fnt"));
-        fontYellow = new BitmapFont(Gdx.files.internal("gardens80gray.fnt"));
+        fontGray = new BitmapFont(Gdx.files.internal("gardens80gray.fnt"));
 
         screenMenu = new ScreenMenu(this);
         screenGame = new ScreenGame(this);
