@@ -2,6 +2,7 @@ package ru.pifpaf;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.Vector3;
 
 public class PifPafButton {
     float x, y;
@@ -21,5 +22,9 @@ public class PifPafButton {
 
     boolean hit(float tx, float ty){
         return x<tx && tx<x+width && y-height<ty && ty<y;
+    }
+
+    boolean hit(Vector3 t){
+        return x<t.x && t.x<x+width && y-height<t.y && t.y<y;
     }
 }

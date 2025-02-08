@@ -3,6 +3,7 @@ package ru.pifpaf;
 import static ru.pifpaf.Main.*;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -49,7 +50,7 @@ public class ScreenGame implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(new PifPafInputProcessor());
     }
 
     @Override
@@ -59,7 +60,7 @@ public class ScreenGame implements Screen {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touch);
 
-            if(btnExit.hit(touch.x, touch.y)){
+            if(btnExit.hit(touch)){
                 main.setScreen(main.screenMenu);
             }
         }
@@ -100,5 +101,59 @@ public class ScreenGame implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    class PifPafInputProcessor implements InputProcessor{
+
+        @Override
+        public boolean keyDown(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            touch.set(screenX, screenY, 0);
+            camera.unproject(touch);
+            ship.touch(touch);
+            return false;
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            touch.set(screenX, screenY, 0);
+            camera.unproject(touch);
+            ship.touch(touch);
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            return false;
+        }
+
+        @Override
+        public boolean scrolled(float amountX, float amountY) {
+            return false;
+        }
     }
 }
