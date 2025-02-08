@@ -10,29 +10,30 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.Arrays;
+import com.badlogic.gdx.utils.Align;
 
 public class ScreenSettings implements Screen {
     SpriteBatch batch;
     OrthographicCamera camera;
     Vector3 touch;
-    BitmapFont font;
+    BitmapFont fontWhite, fontYellow;
     Main main;
 
     Texture imgBackGround;
 
-    PifPafButton btnExit;
+    PifPafButton btnBack;
+
 
     ScreenSettings(Main main){
         batch = main.batch;
         camera = main.camera;
         touch = main.touch;
-        font = main.font;
+        fontWhite = main.fontWhite;
+        fontYellow = main.fontYellow;
         this.main = main;
 
         imgBackGround = new Texture("space1.png");
-        btnExit = new PifPafButton("Exit", font, 300, 600);
+        btnBack = new PifPafButton("Back", fontWhite, 200);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class ScreenSettings implements Screen {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touch);
 
-            if(btnExit.hit(touch.x, touch.y)){
+            if(btnBack.hit(touch.x, touch.y)){
                 main.setScreen(main.screenMenu);
             }
         }
@@ -57,8 +58,8 @@ public class ScreenSettings implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        font.draw(batch, "Settings", 400, 1000);
-        btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
+        fontWhite.draw(batch, "Settings", 0, 1500, SCR_WIDTH, Align.center, true);
+        btnBack.font.draw(batch, btnBack.text, btnBack.x, btnBack.y);
         batch.end();
     }
 

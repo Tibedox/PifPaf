@@ -26,7 +26,7 @@ public class ScreenAbout implements Screen {
         batch = main.batch;
         camera = main.camera;
         touch = main.touch;
-        font = main.font;
+        font = main.fontWhite;
         this.main = main;
 
         imgBackGround = new Texture("space1.png");

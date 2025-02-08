@@ -1,5 +1,7 @@
 package ru.pifpaf;
 
+import static ru.pifpaf.Main.SCR_WIDTH;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector3;
@@ -18,6 +20,16 @@ public class PifPafButton {
         GlyphLayout glyphLayout = new GlyphLayout(font, text);
         width = glyphLayout.width;
         height = glyphLayout.height;
+    }
+
+    public PifPafButton(String text, BitmapFont font, float y) {
+        this.y = y;
+        this.text = text;
+        this.font = font;
+        GlyphLayout glyphLayout = new GlyphLayout(font, text);
+        width = glyphLayout.width;
+        height = glyphLayout.height;
+        this.x = SCR_WIDTH/2 - width/2;
     }
 
     boolean hit(float tx, float ty){

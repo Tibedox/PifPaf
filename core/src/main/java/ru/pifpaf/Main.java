@@ -13,7 +13,8 @@ public class Main extends Game {
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public Vector3 touch;
-    public BitmapFont font;
+    public BitmapFont fontWhite;
+    public BitmapFont fontYellow;
 
     public ScreenMenu screenMenu;
     public ScreenGame screenGame;
@@ -27,7 +28,8 @@ public class Main extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
         touch = new Vector3();
-        font = new BitmapFont(Gdx.files.internal("comic70.fnt"));
+        fontWhite = new BitmapFont(Gdx.files.internal("gardens80white.fnt"));
+        fontYellow = new BitmapFont(Gdx.files.internal("gardens80yellow.fnt"));
 
         screenMenu = new ScreenMenu(this);
         screenGame = new ScreenGame(this);
@@ -40,6 +42,7 @@ public class Main extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-        font.dispose();
+        fontWhite.dispose();
+        fontYellow.dispose();
     }
 }

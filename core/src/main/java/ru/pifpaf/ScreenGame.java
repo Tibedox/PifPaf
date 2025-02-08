@@ -32,7 +32,7 @@ public class ScreenGame implements Screen {
         batch = main.batch;
         camera = main.camera;
         touch = main.touch;
-        font = main.font;
+        font = main.fontWhite;
         this.main = main;
 
         imgBackGround = new Texture("space2.png");
