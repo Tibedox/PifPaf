@@ -134,7 +134,12 @@ public class ScreenGame implements Screen {
             touch.set(screenX, screenY, 0);
             camera.unproject(touch);
             if(controls == SCREEN) {
-                ship.touch(touch);
+                ship.touchScreen(touch);
+            }
+            if(controls == JOYSTICK) {
+                if(main.joystick.isTouchInside(touch)){
+                    ship.touchJoystick(touch, main.joystick);
+                }
             }
             return false;
         }
@@ -154,7 +159,12 @@ public class ScreenGame implements Screen {
             touch.set(screenX, screenY, 0);
             camera.unproject(touch);
             if(controls == SCREEN) {
-                ship.touch(touch);
+                ship.touchScreen(touch);
+            }
+            if(controls == JOYSTICK) {
+                if(main.joystick.isTouchInside(touch)){
+                    ship.touchJoystick(touch, main.joystick);
+                }
             }
             return false;
         }

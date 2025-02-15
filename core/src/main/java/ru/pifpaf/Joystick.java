@@ -1,26 +1,36 @@
 package ru.pifpaf;
 
+import static ru.pifpaf.Main.RIGHT;
 import static ru.pifpaf.Main.SCR_WIDTH;
 
-public class Joystick {
-    private float x, y;
-    public float width, height;
-    public boolean isRight = false;
+import com.badlogic.gdx.math.Vector3;
 
-    public Joystick(float diameter, boolean isRight) {
+public class Joystick {
+    public float x, y;
+    public float width, height;
+    public boolean side;
+    public String text;
+
+    public Joystick(float diameter, boolean side) {
         width = height = diameter;
-        on(isRight);
+        setSide(side);
         y = height/2;
     }
 
-    public void on(boolean isRight){
-        this.isRight = isRight;
-        if(isRight) x = SCR_WIDTH-width/2;
-        else x = width/2;
+    public void setSide(boolean side){
+        this.side = side;
+        if(side == RIGHT) {
+            x = SCR_WIDTH - width / 2;
+            text = "Joystick Right";
+        }
+        else {
+            x = width / 2;
+            text = "Joystick Left";
+        }
     }
 
-    public boolean isTouchInside(float tx, float ty){
-        return Math.pow(tx-x, 2)+Math.pow(ty-y, 2) <= Math.pow(width/2, 2);
+    public boolean isTouchInside(Vector3 t){
+        return Math.pow(t.x-x, 2)+Math.pow(t.y-y, 2) <= Math.pow(width/2, 2);
     }
 
     public float scrX(){

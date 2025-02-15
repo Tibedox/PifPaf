@@ -39,7 +39,7 @@ public class ScreenSettings implements Screen {
         btnSettings = new PifPafButton("Settings", fontWhite, 1500);
         btnControl = new PifPafButton("Control:", fontWhite, 100, 1200);
         btnScreen = new PifPafButton("Screen", fontWhite, 200, 1100);
-        btnJoystick = new PifPafButton("Joystick Left", fontGray, 200, 1000);
+        btnJoystick = new PifPafButton(main.joystick.text, fontGray, 200, 1000);
         btnAccelerometer = new PifPafButton("Accelerometer", fontGray, 200, 900);
         btnBack = new PifPafButton("Back", fontWhite, 200);
     }
@@ -67,13 +67,8 @@ public class ScreenSettings implements Screen {
                 btnJoystick.setFont(fontWhite);
                 btnAccelerometer.setFont(fontGray);
                 if(controls == JOYSTICK){
-                    if(main.joystick.isRight) {
-                        main.joystick.on(false);
-                        btnJoystick.setText("Joystick Left");
-                    } else {
-                        main.joystick.on(true);
-                        btnJoystick.setText("Joystick Right");
-                    }
+                    main.joystick.setSide(!main.joystick.side);
+                    btnJoystick.setText(main.joystick.text);
                 }
                 controls = JOYSTICK;
             }
