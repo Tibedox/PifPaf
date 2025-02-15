@@ -32,11 +32,17 @@ public class PifPafButton {
         this.x = SCR_WIDTH/2 - width/2;
     }
 
-    public void changeFont(BitmapFont font){
+    public void setFont(BitmapFont font){
         this.font = font;
         GlyphLayout glyphLayout = new GlyphLayout(font, text);
         width = glyphLayout.width;
         height = glyphLayout.height;
+    }
+
+    public void setText(String text){
+        this.text = text;
+        GlyphLayout glyphLayout = new GlyphLayout(font, text);
+        width = glyphLayout.width;
     }
 
     boolean hit(float tx, float ty){

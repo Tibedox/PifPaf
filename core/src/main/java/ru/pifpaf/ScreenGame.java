@@ -19,6 +19,7 @@ public class ScreenGame implements Screen {
     Vector3 touch;
     BitmapFont font;
 
+    Texture imgJoystick;
     Texture imgBackGround;
     Texture imgShipsAtlas;
     TextureRegion[] imgShip = new TextureRegion[12];
@@ -35,6 +36,7 @@ public class ScreenGame implements Screen {
         font = main.fontWhite;
         this.main = main;
 
+        imgJoystick = new Texture("joystick.png");
         imgBackGround = new Texture("space2.png");
         imgShipsAtlas = new Texture("ships_atlas.png");
         for (int i = 0; i < imgShip.length; i++) {
@@ -46,11 +48,11 @@ public class ScreenGame implements Screen {
         space[0] = new Space(0, 0);
         space[1] = new Space(0, SCR_HEIGHT);
         ship = new Ship(SCR_WIDTH/2, 150);
+        Gdx.input.setInputProcessor(new PifPafInputProcessor());
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(new PifPafInputProcessor());
     }
 
     @Override
@@ -78,6 +80,9 @@ public class ScreenGame implements Screen {
         batch.begin();
         for(Space s: space) batch.draw(imgBackGround, s.x, s.y, s.width, s.height);
         batch.draw(imgShip[ship.phase], ship.scrX(), ship.scrY(), ship.width, ship.height);
+        if(controls == JOYSTICK){
+            batch.draw(imgJoystick, main.joystick.scrX(), main.joystick.scrY(), main.joystick.width, main.joystick.height);
+        }
         btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
         batch.end();
     }

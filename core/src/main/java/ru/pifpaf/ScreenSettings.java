@@ -21,11 +21,11 @@ public class ScreenSettings implements Screen {
     Texture imgBackGround;
 
     PifPafButton btnSettings;
-    PifPafButton btnBack;
     PifPafButton btnControl;
     PifPafButton btnScreen;
     PifPafButton btnJoystick;
     PifPafButton btnAccelerometer;
+    PifPafButton btnBack;
 
     ScreenSettings(Main main){
         batch = main.batch;
@@ -39,7 +39,7 @@ public class ScreenSettings implements Screen {
         btnSettings = new PifPafButton("Settings", fontWhite, 1500);
         btnControl = new PifPafButton("Control:", fontWhite, 100, 1200);
         btnScreen = new PifPafButton("Screen", fontWhite, 200, 1100);
-        btnJoystick = new PifPafButton("Joystick Right", fontGray, 200, 1000);
+        btnJoystick = new PifPafButton("Joystick Left", fontGray, 200, 1000);
         btnAccelerometer = new PifPafButton("Accelerometer", fontGray, 200, 900);
         btnBack = new PifPafButton("Back", fontWhite, 200);
     }
@@ -57,22 +57,31 @@ public class ScreenSettings implements Screen {
             camera.unproject(touch);
 
             if(btnScreen.hit(touch)){
-                btnScreen.changeFont(fontWhite);
-                btnJoystick.changeFont(fontGray);
-                btnAccelerometer.changeFont(fontGray);
+                btnScreen.setFont(fontWhite);
+                btnJoystick.setFont(fontGray);
+                btnAccelerometer.setFont(fontGray);
                 controls = SCREEN;
             }
             if(btnJoystick.hit(touch)){
-                btnScreen.changeFont(fontGray);
-                btnJoystick.changeFont(fontWhite);
-                btnAccelerometer.changeFont(fontGray);
-                controls = JOYSTICK_RIGHT;
+                btnScreen.setFont(fontGray);
+                btnJoystick.setFont(fontWhite);
+                btnAccelerometer.setFont(fontGray);
+                if(controls == JOYSTICK){
+                    if(main.joystick.isRight) {
+                        main.joystick.on(false);
+                        btnJoystick.setText("Joystick Left");
+                    } else {
+                        main.joystick.on(true);
+                        btnJoystick.setText("Joystick Right");
+                    }
+                }
+                controls = JOYSTICK;
             }
             if(btnAccelerometer.hit(touch)){
                 if(Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer)) {
-                    btnScreen.changeFont(fontGray);
-                    btnJoystick.changeFont(fontGray);
-                    btnAccelerometer.changeFont(fontWhite);
+                    btnScreen.setFont(fontGray);
+                    btnJoystick.setFont(fontGray);
+                    btnAccelerometer.setFont(fontWhite);
                     controls = ACCELEROMETER;
                 }
             }
