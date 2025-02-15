@@ -26,15 +26,19 @@ public class ScreenGame implements Screen {
     Texture imgJoystick;
     Texture imgBackGround;
     Texture imgShipsAtlas;
+    Texture imgShotsAtlas;
     TextureRegion[] imgShip = new TextureRegion[12];
     TextureRegion[][] imgEnemy = new TextureRegion[4][12];
+    TextureRegion imgShot;
 
     PifPafButton btnExit;
 
     Space[] space = new Space[2];
     Ship ship;
     List<Enemy> enemies = new ArrayList<>();
+    List<Shot> shots = new ArrayList<>();
     private long timeLastSpawnEnemy, timeIntervalSpawnEnemy = 2000;
+    private long timeLastShoot, timeIntervalShoot = 500;
 
     ScreenGame(Main main){
         batch = main.batch;
@@ -46,6 +50,7 @@ public class ScreenGame implements Screen {
         imgJoystick = new Texture("joystick.png");
         imgBackGround = new Texture("space2.png");
         imgShipsAtlas = new Texture("ships_atlas.png");
+        imgShotsAtlas = new Texture("shots.png");
         for (int i = 0; i < imgShip.length; i++) {
             imgShip[i] = new TextureRegion(imgShipsAtlas, (i<7?i:12-i)*400, 0, 400, 400);
         }
@@ -54,6 +59,7 @@ public class ScreenGame implements Screen {
                 imgEnemy[j][i] = new TextureRegion(imgShipsAtlas, (i < 7 ? i : 12 - i) * 400, (j+1)*400, 400, 400);
             }
         }
+        imgShot = new TextureRegion(imgShotsAtlas, 0, 0, 100, 350);
 
         btnExit = new PifPafButton("x", font, 850, 1600);
 
@@ -88,6 +94,8 @@ public class ScreenGame implements Screen {
         ship.move();
         spawnEnemy();
         for (Enemy e: enemies) e.move();
+        spawnShots();
+        for (Shot s: shots) s.move();
 
         // отрисовка
         batch.setProjectionMatrix(camera.combined);
@@ -98,6 +106,9 @@ public class ScreenGame implements Screen {
         }
         for (Enemy e: enemies){
             batch.draw(imgEnemy[e.type][e.phase], e.scrX(), e.scrY(), e.width, e.height);
+        }
+        for (Shot s: shots){
+            batch.draw(imgShot, s.scrX(), s.scrY(), s.width, s.height);
         }
         batch.draw(imgShip[ship.phase], ship.scrX(), ship.scrY(), ship.width, ship.height);
         btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
@@ -133,6 +144,13 @@ public class ScreenGame implements Screen {
         if(TimeUtils.millis()>timeLastSpawnEnemy+timeIntervalSpawnEnemy){
             enemies.add(new Enemy());
             timeLastSpawnEnemy = TimeUtils.millis();
+        }
+    }
+    private void spawnShots(){
+        if(TimeUtils.millis()>timeLastShoot+timeIntervalShoot){
+            shots.add(new Shot(ship.x-60, ship.y));
+            shots.add(new Shot(ship.x+60, ship.y));
+            timeLastShoot = TimeUtils.millis();
         }
     }
 
