@@ -55,7 +55,7 @@ public class Ship extends SpaceObject{
     }
 
     public void touchJoystick(Vector3 t, Joystick j){
-        vx = (t.x-j.x)/5;
-        vy = (t.y-j.y)/5;
+        vx = (t.x-j.x)/8;
+        vy = (t.y-j.y)/8;
     }
 }
