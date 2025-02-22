@@ -95,7 +95,21 @@ public class ScreenGame implements Screen {
         spawnEnemy();
         for (Enemy e: enemies) e.move();
         spawnShots();
-        for (Shot s: shots) s.move();
+        for (int i = shots.size()-1; i >= 0; i--) {
+            shots.get(i).move();
+            if(shots.get(i).isDead) {
+                shots.remove(i);
+                continue;
+            }
+            for (int j = enemies.size()-1; j >= 0; j--) {
+                if(shots.get(i).overlap(enemies.get(j))){
+                    shots.remove(i);
+                    enemies.remove(j);
+                    break;
+                }
+            }
+        }
+        System.out.println(shots.size());
 
         // отрисовка
         batch.setProjectionMatrix(camera.combined);
