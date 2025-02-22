@@ -25,6 +25,7 @@ public class ScreenSettings implements Screen {
     PifPafButton btnScreen;
     PifPafButton btnJoystick;
     PifPafButton btnAccelerometer;
+    PifPafButton btnSound;
     PifPafButton btnBack;
 
     ScreenSettings(Main main){
@@ -41,6 +42,7 @@ public class ScreenSettings implements Screen {
         btnScreen = new PifPafButton("Screen", fontWhite, 200, 1100);
         btnJoystick = new PifPafButton(main.joystick.text, fontGray, 200, 1000);
         btnAccelerometer = new PifPafButton("Accelerometer", fontGray, 200, 900);
+        btnSound = new PifPafButton(isSound?"Sound On":"Sound Off", fontWhite, 100, 750);
         btnBack = new PifPafButton("Back", fontWhite, 200);
     }
 
@@ -80,6 +82,10 @@ public class ScreenSettings implements Screen {
                     controls = ACCELEROMETER;
                 }
             }
+            if(btnSound.hit(touch)){
+                isSound = !isSound;
+                btnSound.setText(isSound?"Sound On":"Sound Off");
+            }
             if(btnBack.hit(touch)){
                 main.setScreen(main.screenMenu);
             }
@@ -95,6 +101,7 @@ public class ScreenSettings implements Screen {
         btnScreen.font.draw(batch, btnScreen.text, btnScreen.x, btnScreen.y);
         btnJoystick.font.draw(batch, btnJoystick.text, btnJoystick.x, btnJoystick.y);
         btnAccelerometer.font.draw(batch, btnAccelerometer.text, btnAccelerometer.x, btnAccelerometer.y);
+        btnSound.font.draw(batch, btnSound.text, btnSound.x, btnSound.y);
         btnBack.font.draw(batch, btnBack.text, btnBack.x, btnBack.y);
         batch.end();
     }

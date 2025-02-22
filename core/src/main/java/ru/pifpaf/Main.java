@@ -12,6 +12,7 @@ public class Main extends Game {
     public static final boolean RIGHT = true, LEFT = false;
     public static final int SCREEN = 0, JOYSTICK = 1, ACCELEROMETER = 2;
     public static int controls = SCREEN;
+    public static boolean isSound = true;
 
     public SpriteBatch batch;
     public OrthographicCamera camera;

@@ -5,6 +5,7 @@ import static ru.pifpaf.Main.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -30,6 +31,9 @@ public class ScreenGame implements Screen {
     TextureRegion[] imgShip = new TextureRegion[12];
     TextureRegion[][] imgEnemy = new TextureRegion[4][12];
     TextureRegion imgShot;
+
+    Sound sndBlaster;
+    Sound sndExplosion;
 
     PifPafButton btnExit;
 
@@ -60,6 +64,9 @@ public class ScreenGame implements Screen {
             }
         }
         imgShot = new TextureRegion(imgShotsAtlas, 0, 0, 100, 350);
+
+        sndBlaster = Gdx.audio.newSound(Gdx.files.internal("blaster.mp3"));
+        sndExplosion = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
 
         btnExit = new PifPafButton("x", font, 850, 1600);
 
@@ -105,11 +112,11 @@ public class ScreenGame implements Screen {
                 if(shots.get(i).overlap(enemies.get(j))){
                     shots.remove(i);
                     enemies.remove(j);
+                    if(isSound) sndExplosion.play();
                     break;
                 }
             }
         }
-        System.out.println(shots.size());
 
         // отрисовка
         batch.setProjectionMatrix(camera.combined);
@@ -151,7 +158,12 @@ public class ScreenGame implements Screen {
 
     @Override
     public void dispose() {
-
+        imgBackGround.dispose();
+        imgShipsAtlas.dispose();
+        imgShotsAtlas.dispose();
+        imgJoystick.dispose();
+        sndBlaster.dispose();
+        sndExplosion.dispose();
     }
 
     private void spawnEnemy(){
@@ -165,6 +177,7 @@ public class ScreenGame implements Screen {
             shots.add(new Shot(ship.x-60, ship.y));
             shots.add(new Shot(ship.x+60, ship.y));
             timeLastShoot = TimeUtils.millis();
+            if(isSound) sndBlaster.play();
         }
     }
 
