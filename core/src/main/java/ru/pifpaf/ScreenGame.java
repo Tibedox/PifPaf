@@ -104,12 +104,12 @@ public class ScreenGame implements Screen {
         spawnShots();
         for (int i = shots.size()-1; i >= 0; i--) {
             shots.get(i).move();
-            if(shots.get(i).isDead) {
+            if(shots.get(i).outOfScreen()) {
                 shots.remove(i);
                 continue;
             }
             for (int j = enemies.size()-1; j >= 0; j--) {
-                if(shots.get(i).overlap(enemies.get(j))){
+                if(shots.get(i).readyToKill() && shots.get(i).overlap(enemies.get(j))){
                     shots.remove(i);
                     enemies.remove(j);
                     if(isSound) sndExplosion.play();

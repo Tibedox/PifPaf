@@ -4,7 +4,6 @@ import static ru.pifpaf.Main.SCR_HEIGHT;
 import static ru.pifpaf.Main.SCR_WIDTH;
 
 public class Shot extends SpaceObject{
-    public boolean isDead;
 
     public Shot(float x, float y) {
         super(x, y);
@@ -13,13 +12,11 @@ public class Shot extends SpaceObject{
         vy = 20f;
     }
 
-    @Override
-    public void move() {
-        super.move();
-        outOfScreen();
+    public boolean outOfScreen(){
+        return x<-width/2 || x>SCR_WIDTH+width/2 || y<-height/2 || y>SCR_HEIGHT+height/2;
     }
 
-    private void outOfScreen(){
-        isDead = x<-width/2 || x>SCR_WIDTH+width/2 || y<-height/2 || y>SCR_HEIGHT+height/2;
+    public boolean readyToKill(){
+        return x>0 && x<SCR_WIDTH && y>0 && y<SCR_HEIGHT;
     }
 }
