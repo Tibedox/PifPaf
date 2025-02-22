@@ -45,6 +45,7 @@ public class ScreenGame implements Screen {
     List<Fragment> fragments = new ArrayList<>();
     private long timeLastSpawnEnemy, timeIntervalSpawnEnemy = 2000;
     private long timeLastShoot, timeIntervalShoot = 500;
+    private int numFragments = 100;
 
     ScreenGame(Main main){
         batch = main.batch;
@@ -200,7 +201,7 @@ public class ScreenGame implements Screen {
     }
 
     private void spawnFragments(SpaceObject o){
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < numFragments; i++) {
             fragments.add(new Fragment(o.x, o.y, o.type));
         }
     }
