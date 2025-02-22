@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class Enemy extends SpaceObject{
     public int phase, nPhases = 12;
     private long timeLastPhase, timePhaseInterval = 33;
-    public int type;
 
     public Enemy() {
         width = 200;
