@@ -46,12 +46,13 @@ public class ScreenGame implements Screen {
     private long timeLastSpawnEnemy, timeIntervalSpawnEnemy = 2000;
     private long timeLastShoot, timeIntervalShoot = 500;
     private int numFragments = 100;
+    private int score;
 
     ScreenGame(Main main){
         batch = main.batch;
         camera = main.camera;
         touch = main.touch;
-        font = main.fontWhite;
+        font = main.font50Yellow;
         this.main = main;
 
         imgJoystick = new Texture("joystick.png");
@@ -79,7 +80,7 @@ public class ScreenGame implements Screen {
         sndBlaster = Gdx.audio.newSound(Gdx.files.internal("blaster.mp3"));
         sndExplosion = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
 
-        btnExit = new PifPafButton("x", font, 850, 1600);
+        btnExit = new PifPafButton("x", font, 870, 1590);
 
         space[0] = new Space(0, 0);
         space[1] = new Space(0, SCR_HEIGHT);
@@ -124,6 +125,7 @@ public class ScreenGame implements Screen {
                     shots.remove(i);
                     if(isSound) sndExplosion.play();
                     if(--enemies.get(j).hp == 0) {
+                        score += enemies.get(j).price;
                         spawnFragments(enemies.get(j));
                         enemies.remove(j);
                     }
@@ -153,6 +155,7 @@ public class ScreenGame implements Screen {
             batch.draw(imgShot, s.scrX(), s.scrY(), s.width, s.height);
         }
         batch.draw(imgShip[ship.phase], ship.scrX(), ship.scrY(), ship.width, ship.height);
+        font.draw(batch, "score: "+score, 10, 1590);
         btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
         batch.end();
     }

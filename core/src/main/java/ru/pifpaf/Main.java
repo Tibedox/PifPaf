@@ -17,9 +17,10 @@ public class Main extends Game {
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public Vector3 touch;
-    public BitmapFont fontWhite;
-    public BitmapFont fontYellow;
-    public BitmapFont fontGray;
+    public BitmapFont font80White;
+    public BitmapFont font80Yellow;
+    public BitmapFont font80Gray;
+    public BitmapFont font50Yellow;
     public Joystick joystick;
 
     public ScreenMenu screenMenu;
@@ -34,9 +35,10 @@ public class Main extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
         touch = new Vector3();
-        fontWhite = new BitmapFont(Gdx.files.internal("gardens80white.fnt"));
-        fontYellow = new BitmapFont(Gdx.files.internal("gardens80yellow.fnt"));
-        fontGray = new BitmapFont(Gdx.files.internal("gardens80gray.fnt"));
+        font80White = new BitmapFont(Gdx.files.internal("fonts/crystal80white.fnt"));
+        font80Yellow = new BitmapFont(Gdx.files.internal("fonts/crystal80yellow.fnt"));
+        font80Gray = new BitmapFont(Gdx.files.internal("fonts/crystal80gray.fnt"));
+        font50Yellow = new BitmapFont(Gdx.files.internal("fonts/crystal50yellow.fnt"));
         joystick = new Joystick(360, RIGHT);
 
         screenMenu = new ScreenMenu(this);
@@ -50,8 +52,9 @@ public class Main extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-        fontWhite.dispose();
-        fontYellow.dispose();
-        fontGray.dispose();
+        font80White.dispose();
+        font80Yellow.dispose();
+        font80Gray.dispose();
+        font50Yellow.dispose();
     }
 }

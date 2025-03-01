@@ -9,6 +9,7 @@ public class Enemy extends SpaceObject{
     public int phase, nPhases = 12;
     private long timeLastPhase, timePhaseInterval = 33;
     public int hp;
+    public int price;
 
     public Enemy() {
         type = MathUtils.random(0, 3);
@@ -34,21 +35,25 @@ public class Enemy extends SpaceObject{
         switch (type){
             case 0:
                 hp = 2;
+                price = 2;
                 width = height = 200;
                 vy = MathUtils.random(-8f, -6f);
                 break;
             case 1:
                 hp = 6;
+                price = 5;
                 width = height = 300;
                 vy = MathUtils.random(-6f, -4f);
                 break;
             case 2:
                 hp = 3;
+                price = 3;
                 width = height = 250;
                 vy = MathUtils.random(-7f, -5f);
                 break;
             case 3:
                 hp = 1;
+                price = 1;
                 width = height = 160;
                 vy = MathUtils.random(-9f, -7f);
                 break;

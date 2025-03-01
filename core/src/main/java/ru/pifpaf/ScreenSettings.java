@@ -33,8 +33,8 @@ public class ScreenSettings implements Screen {
         batch = main.batch;
         camera = main.camera;
         touch = main.touch;
-        fontWhite = main.fontWhite;
-        fontGray = main.fontGray;
+        fontWhite = main.font80White;
+        fontGray = main.font80Gray;
         this.main = main;
 
         imgBackGround = new Texture("space1.png");

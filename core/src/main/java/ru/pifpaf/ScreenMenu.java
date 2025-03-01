@@ -30,7 +30,7 @@ public class ScreenMenu implements Screen {
         batch = main.batch;
         camera = main.camera;
         touch = main.touch;
-        font = main.fontWhite;
+        font = main.font80White;
         this.main = main;
 
         imgBackGround = new Texture("space1.png");
