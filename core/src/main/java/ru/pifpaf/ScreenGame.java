@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class ScreenGame implements Screen {
     SpriteBatch batch;
     OrthographicCamera camera;
     Vector3 touch;
-    BitmapFont font;
+    BitmapFont font50, font80, font120;
 
     Texture imgJoystick;
     Texture imgBackGround;
@@ -47,12 +48,15 @@ public class ScreenGame implements Screen {
     private long timeLastShoot, timeIntervalShoot = 500;
     private int numFragments = 100;
     private int score;
+    private boolean gameOver;
 
     ScreenGame(Main main){
         batch = main.batch;
         camera = main.camera;
         touch = main.touch;
-        font = main.font50Yellow;
+        font50 = main.font50Yellow;
+        font80 = main.font80White;
+        font120 = main.font120White;
         this.main = main;
 
         imgJoystick = new Texture("joystick.png");
@@ -80,7 +84,7 @@ public class ScreenGame implements Screen {
         sndBlaster = Gdx.audio.newSound(Gdx.files.internal("blaster.mp3"));
         sndExplosion = Gdx.audio.newSound(Gdx.files.internal("explosion.mp3"));
 
-        btnExit = new PifPafButton("x", font, 870, 1590);
+        btnExit = new PifPafButton("x", font50, 870, 1590);
 
         space[0] = new Space(0, 0);
         space[1] = new Space(0, SCR_HEIGHT);
@@ -90,13 +94,12 @@ public class ScreenGame implements Screen {
     @Override
     public void show() {
         try {
-            Thread.sleep(300);
+            Thread.sleep(500);
             Gdx.input.setInputProcessor(null);
         } catch (InterruptedException e) {
 
-        } finally {
-            Gdx.input.setInputProcessor(new PifPafInputProcessor());
         }
+        Gdx.input.setInputProcessor(new PifPafInputProcessor());
     }
 
     @Override
@@ -117,10 +120,24 @@ public class ScreenGame implements Screen {
 
         // события
         for (Space s: space) s.move();
-        ship.move();
         spawnEnemy();
-        for (Enemy e: enemies) e.move();
-        spawnShots();
+        if(!gameOver) {
+            ship.move();
+            spawnShots();
+        }
+        for (int i = enemies.size()-1; i>=0; i--) {
+            enemies.get(i).move();
+            if(enemies.get(i).overlap(ship)){
+                if(isSound) sndExplosion.play();
+                if(isSound) sndExplosion.play();
+                spawnFragments(enemies.get(i));
+                spawnFragments(ship);
+                enemies.remove(i);
+                ship.dead();
+                gameOver = true;
+                break;
+            }
+        }
         for (int i = shots.size()-1; i >= 0; i--) {
             shots.get(i).move();
             if(shots.get(i).outOfScreen()) {
@@ -162,8 +179,11 @@ public class ScreenGame implements Screen {
             batch.draw(imgShot, s.scrX(), s.scrY(), s.width, s.height);
         }
         batch.draw(imgShip[ship.phase], ship.scrX(), ship.scrY(), ship.width, ship.height);
-        font.draw(batch, "score: "+score, 10, 1590);
+        font50.draw(batch, "score: "+score, 10, 1590);
         btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
+        if(gameOver){
+            font120.draw(batch, "GAME OVER", 0, 1200, SCR_WIDTH, Align.center, true);
+        }
         batch.end();
     }
 

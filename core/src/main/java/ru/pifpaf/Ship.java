@@ -59,4 +59,10 @@ public class Ship extends SpaceObject{
         vx = (t.x-j.x)/8;
         vy = (t.y-j.y)/8;
     }
+
+    public void dead(){
+        vx = 0;
+        vy = 0;
+        x = -10000;
+    }
 }

@@ -17,6 +17,7 @@ public class Main extends Game {
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public Vector3 touch;
+    public BitmapFont font120White;
     public BitmapFont font80White;
     public BitmapFont font80Yellow;
     public BitmapFont font80Gray;
@@ -35,6 +36,7 @@ public class Main extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
         touch = new Vector3();
+        font120White = new BitmapFont(Gdx.files.internal("fonts/crystal120white.fnt"));
         font80White = new BitmapFont(Gdx.files.internal("fonts/crystal80white.fnt"));
         font80Yellow = new BitmapFont(Gdx.files.internal("fonts/crystal80yellow.fnt"));
         font80Gray = new BitmapFont(Gdx.files.internal("fonts/crystal80gray.fnt"));
