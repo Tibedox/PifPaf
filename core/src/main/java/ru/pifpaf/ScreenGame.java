@@ -85,11 +85,18 @@ public class ScreenGame implements Screen {
         space[0] = new Space(0, 0);
         space[1] = new Space(0, SCR_HEIGHT);
         ship = new Ship(SCR_WIDTH/2, 150);
-        Gdx.input.setInputProcessor(new PifPafInputProcessor());
     }
 
     @Override
     public void show() {
+        try {
+            Thread.sleep(300);
+            Gdx.input.setInputProcessor(null);
+        } catch (InterruptedException e) {
+
+        } finally {
+            Gdx.input.setInputProcessor(new PifPafInputProcessor());
+        }
     }
 
     @Override
