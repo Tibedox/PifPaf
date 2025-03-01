@@ -40,9 +40,9 @@ public class ScreenSettings implements Screen {
         imgBackGround = new Texture("space1.png");
         btnSettings = new PifPafButton("Settings", fontWhite, 1500);
         btnControl = new PifPafButton("Control:", fontWhite, 100, 1200);
-        btnScreen = new PifPafButton("Screen", fontWhite, 200, 1100);
-        btnJoystick = new PifPafButton(main.joystick.text, fontGray, 200, 1000);
-        btnAccelerometer = new PifPafButton("Accelerometer", fontGray, 200, 900);
+        btnScreen = new PifPafButton("Screen", isActiveFont(SCREEN), 200, 1100);
+        btnJoystick = new PifPafButton(main.joystick.text, isActiveFont(JOYSTICK), 200, 1000);
+        btnAccelerometer = new PifPafButton("Accelerometer", isActiveFont(ACCELEROMETER), 200, 900);
         btnSound = new PifPafButton(isSound?"Sound On":"Sound Off", fontWhite, 100, 750);
         btnBack = new PifPafButton("Back", fontWhite, 200);
     }
@@ -138,5 +138,9 @@ public class ScreenSettings implements Screen {
         prefs.putBoolean("joystick", main.joystick.side);
         prefs.putBoolean("sound", isSound);
         prefs.flush();
+    }
+
+    private BitmapFont isActiveFont(int c){
+        return controls == c? fontWhite : fontGray;
     }
 }
