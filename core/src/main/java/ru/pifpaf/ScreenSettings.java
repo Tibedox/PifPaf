@@ -4,6 +4,7 @@ import static ru.pifpaf.Main.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -123,11 +124,19 @@ public class ScreenSettings implements Screen {
 
     @Override
     public void hide() {
-
+        saveSettings();
     }
 
     @Override
     public void dispose() {
 
+    }
+
+    private void saveSettings() {
+        Preferences prefs = Gdx.app.getPreferences("PifPafSettings");
+        prefs.putInteger("controls", controls);
+        prefs.putBoolean("joystick", main.joystick.side);
+        prefs.putBoolean("sound", isSound);
+        prefs.flush();
     }
 }
