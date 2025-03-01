@@ -121,10 +121,12 @@ public class ScreenGame implements Screen {
             }
             for (int j = enemies.size()-1; j >= 0; j--) {
                 if(shots.get(i).readyToKill() && shots.get(i).overlap(enemies.get(j))){
-                    spawnFragments(enemies.get(j));
                     shots.remove(i);
-                    enemies.remove(j);
                     if(isSound) sndExplosion.play();
+                    if(--enemies.get(j).hp == 0) {
+                        spawnFragments(enemies.get(j));
+                        enemies.remove(j);
+                    }
                     break;
                 }
             }
