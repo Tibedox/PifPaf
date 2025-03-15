@@ -31,6 +31,10 @@ public class Enemy extends SpaceObject{
         }
     }
 
+    public boolean outOfScreen(){
+        return y<-height/2;
+    }
+
     private void settingsByType(){
         switch (type){
             case 0:

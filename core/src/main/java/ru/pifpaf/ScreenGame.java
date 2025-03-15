@@ -4,6 +4,7 @@ import static ru.pifpaf.Main.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -44,10 +45,11 @@ public class ScreenGame implements Screen {
     List<Enemy> enemies = new ArrayList<>();
     List<Shot> shots = new ArrayList<>();
     List<Fragment> fragments = new ArrayList<>();
+    Player[] players = new Player[10];
+    public Player player;
     private long timeLastSpawnEnemy, timeIntervalSpawnEnemy = 2000;
-    private long timeLastShoot, timeIntervalShoot = 500;
+    private long timeLastShoot, timeIntervalShoot = 1000;
     private int numFragments = 100;
-    private int score;
     private boolean gameOver;
 
     ScreenGame(Main main){
@@ -88,7 +90,11 @@ public class ScreenGame implements Screen {
 
         space[0] = new Space(0, 0);
         space[1] = new Space(0, SCR_HEIGHT);
-        ship = new Ship(SCR_WIDTH/2, 150);
+        player = new Player();
+        for (int i = 0; i < players.length; i++) {
+            players[i] = new Player();
+        }
+        loadTableOfRecords();
     }
 
     @Override
@@ -100,6 +106,7 @@ public class ScreenGame implements Screen {
 
         }
         Gdx.input.setInputProcessor(new PifPafInputProcessor());
+        gameStart();
     }
 
     @Override
@@ -129,13 +136,14 @@ public class ScreenGame implements Screen {
             enemies.get(i).move();
             if(enemies.get(i).overlap(ship)){
                 if(isSound) sndExplosion.play();
-                if(isSound) sndExplosion.play();
                 spawnFragments(enemies.get(i));
-                spawnFragments(ship);
                 enemies.remove(i);
-                ship.dead();
-                gameOver = true;
+                gameOver();
                 break;
+            }
+            if(enemies.get(i).outOfScreen()){
+                enemies.remove(i);
+                if(!gameOver) gameOver();
             }
         }
         for (int i = shots.size()-1; i >= 0; i--) {
@@ -149,7 +157,8 @@ public class ScreenGame implements Screen {
                     shots.remove(i);
                     if(isSound) sndExplosion.play();
                     if(--enemies.get(j).hp == 0) {
-                        score += enemies.get(j).price;
+                        player.score += enemies.get(j).price;
+                        player.kills++;
                         spawnFragments(enemies.get(j));
                         enemies.remove(j);
                     }
@@ -179,10 +188,18 @@ public class ScreenGame implements Screen {
             batch.draw(imgShot, s.scrX(), s.scrY(), s.width, s.height);
         }
         batch.draw(imgShip[ship.phase], ship.scrX(), ship.scrY(), ship.width, ship.height);
-        font50.draw(batch, "score: "+score, 10, 1590);
+        font50.draw(batch, "score: "+player.score, 10, 1590);
         btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
         if(gameOver){
-            font120.draw(batch, "GAME OVER", 0, 1200, SCR_WIDTH, Align.center, true);
+            font120.draw(batch, "GAME OVER", 0, 1300, SCR_WIDTH, Align.center, false);
+            font50.draw(batch, "score", 450, 1170, 200, Align.right, false);
+            font50.draw(batch, "kills", 600, 1170, 200, Align.right, false);
+            for (int i = 0; i < players.length; i++) {
+                font80.draw(batch, i+1+"", 100, 1100-i*80);
+                font80.draw(batch, players[i].name, 200, 1100-i*80);
+                font80.draw(batch, players[i].score+"", 450, 1100-i*80, 200, Align.right, false);
+                font80.draw(batch, players[i].kills+"", 600, 1100-i*80, 200, Align.right, false);
+            }
         }
         batch.end();
     }
@@ -215,6 +232,64 @@ public class ScreenGame implements Screen {
         imgJoystick.dispose();
         sndBlaster.dispose();
         sndExplosion.dispose();
+    }
+
+    private void gameStart(){
+        gameOver = false;
+        ship = new Ship(SCR_WIDTH/2, 150);
+        player.clear();
+        enemies.clear();
+        fragments.clear();
+        shots.clear();
+    }
+
+    private void gameOver(){
+        gameOver = true;
+        if(isSound) sndExplosion.play();
+        spawnFragments(ship);
+        ship.dead();
+        if(player.score >= players[players.length-1].score) {
+            players[players.length-1].clone(player);
+            sortTableOfRecords();
+            saveTableOfRecords();
+        }
+    }
+
+    private void sortTableOfRecords(){
+        for(int j = 0; j < players.length; j++) {
+            for (int i = 0; i < players.length - 1; i++) {
+                if (players[i].score < players[i + 1].score) {
+                    Player c = players[i];
+                    players[i] = players[i + 1];
+                    players[i + 1] = c;
+                }
+            }
+        }
+    }
+
+    private void saveTableOfRecords(){
+        Preferences prefs = Gdx.app.getPreferences("PifPafPrefs");
+        for (int i = 0; i < players.length; i++) {
+            prefs.putString("name"+i, players[i].name);
+            prefs.putInteger("score"+i, players[i].score);
+            prefs.putInteger("kills"+i, players[i].kills);
+        }
+        prefs.flush();
+    }
+
+    private void loadTableOfRecords(){
+        Preferences prefs = Gdx.app.getPreferences("PifPafPrefs");
+        for (int i = 0; i < players.length; i++) {
+            players[i].name = prefs.getString("name"+i, "Noname");
+            players[i].score = prefs.getInteger("score"+i, 0);
+            players[i].kills = prefs.getInteger("kills"+i, 0);
+        }
+    }
+
+    private void clearTableOfRecords(){
+        for (Player p: players) {
+            p.clone(new Player());
+        }
     }
 
     private void spawnEnemy(){
