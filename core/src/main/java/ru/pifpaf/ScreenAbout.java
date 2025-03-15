@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Align;
 
 public class ScreenAbout implements Screen {
     SpriteBatch batch;
@@ -31,7 +32,7 @@ public class ScreenAbout implements Screen {
 
         imgBackGround = new Texture("space1.png");
 
-        btnExit = new PifPafButton("Exit", font, 300, 600);
+        btnExit = new PifPafButton("Exit", font, 200);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class ScreenAbout implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        font.draw(batch, "About", 400, 1000);
+        font.draw(batch, "About", 0, 1500, SCR_WIDTH, Align.center, false);
         btnExit.font.draw(batch, btnExit.text, btnExit.x, btnExit.y);
         batch.end();
     }

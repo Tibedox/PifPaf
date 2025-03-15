@@ -40,8 +40,6 @@ public class ScreenMenu implements Screen {
         btnRecords = new PifPafButton("Records", font, 300, 800);
         btnAbout = new PifPafButton("About", font, 300, 700);
         btnExit = new PifPafButton("Exit", font, 300, 600);
-
-        loadSettings();
     }
 
     @Override
@@ -109,12 +107,5 @@ public class ScreenMenu implements Screen {
     @Override
     public void dispose() {
 
-    }
-
-    private void loadSettings() {
-        Preferences prefs = Gdx.app.getPreferences("PifPafSettings");
-        controls = prefs.getInteger("controls");
-        main.joystick.setSide(prefs.getBoolean("joystick"));
-        isSound = prefs.getBoolean("sound");
     }
 }
