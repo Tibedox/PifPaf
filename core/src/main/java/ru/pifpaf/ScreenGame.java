@@ -267,7 +267,7 @@ public class ScreenGame implements Screen {
         }
     }
 
-    private void saveTableOfRecords(){
+    public void saveTableOfRecords(){
         Preferences prefs = Gdx.app.getPreferences("PifPafPrefs");
         for (int i = 0; i < players.length; i++) {
             prefs.putString("name"+i, players[i].name);
@@ -286,7 +286,7 @@ public class ScreenGame implements Screen {
         }
     }
 
-    private void clearTableOfRecords(){
+    public void clearTableOfRecords(){
         for (Player p: players) {
             p.clone(new Player());
         }
@@ -298,6 +298,7 @@ public class ScreenGame implements Screen {
             timeLastSpawnEnemy = TimeUtils.millis();
         }
     }
+
     private void spawnShots(){
         if(TimeUtils.millis()>timeLastShoot+timeIntervalShoot){
             shots.add(new Shot(ship.x-60, ship.y));

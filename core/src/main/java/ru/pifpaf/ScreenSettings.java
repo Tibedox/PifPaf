@@ -11,17 +11,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Align;
 
 public class ScreenSettings implements Screen {
     SpriteBatch batch;
     OrthographicCamera camera;
     Vector3 touch;
-    BitmapFont fontWhite, fontGray;
+    BitmapFont fontWhite, fontGray, font120;
     Main main;
 
     Texture imgBackGround;
 
-    PifPafButton btnSettings;
     PifPafButton btnControl;
     PifPafButton btnScreen;
     PifPafButton btnJoystick;
@@ -35,10 +35,10 @@ public class ScreenSettings implements Screen {
         touch = main.touch;
         fontWhite = main.font80White;
         fontGray = main.font80Gray;
+        font120 = main.font120White;
         this.main = main;
 
         imgBackGround = new Texture("space1.png");
-        btnSettings = new PifPafButton("Settings", fontWhite, 1500);
         btnControl = new PifPafButton("Control:", fontWhite, 100, 1200);
         btnScreen = new PifPafButton("Screen", isActiveFont(SCREEN), 200, 1100);
         btnJoystick = new PifPafButton(main.joystick.text, isActiveFont(JOYSTICK), 200, 1000);
@@ -97,7 +97,7 @@ public class ScreenSettings implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        btnSettings.font.draw(batch, btnSettings.text, btnSettings.x, btnSettings.y);
+        fontWhite.draw(batch, "Settings", 0, 1500, SCR_WIDTH, Align.center, false);
         btnControl.font.draw(batch, btnControl.text, btnControl.x, btnControl.y);
         btnScreen.font.draw(batch, btnScreen.text, btnScreen.x, btnScreen.y);
         btnJoystick.font.draw(batch, btnJoystick.text, btnJoystick.x, btnJoystick.y);
