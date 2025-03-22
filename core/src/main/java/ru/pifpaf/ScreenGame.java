@@ -16,8 +16,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ScreenGame implements Screen {
     Main main;
@@ -46,6 +52,7 @@ public class ScreenGame implements Screen {
     List<Shot> shots = new ArrayList<>();
     List<Fragment> fragments = new ArrayList<>();
     Player[] players = new Player[10];
+    List<DataFromDB> db = new ArrayList<>();
     public Player player;
     private long timeLastSpawnEnemy, timeIntervalSpawnEnemy = 2000;
     private long timeLastShoot, timeIntervalShoot = 1000;
@@ -253,6 +260,7 @@ public class ScreenGame implements Screen {
             sortTableOfRecords();
             saveTableOfRecords();
         }
+        loadFromDB();
     }
 
     private void sortTableOfRecords(){
@@ -311,6 +319,22 @@ public class ScreenGame implements Screen {
     private void spawnFragments(SpaceObject o){
         for (int i = 0; i < numFragments; i++) {
             fragments.add(new Fragment(o.x, o.y, o.type));
+        }
+    }
+
+    public void loadFromDB(){
+        Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://sch120.ru").addConverterFactory(GsonConverterFactory.create())
+            .build();
+        PifPafAPI api = retrofit.create(PifPafAPI.class);
+
+        Call<List<DataFromDB>> call = api.sendQuery("ask");
+        try {
+            Response<List<DataFromDB>> userResponse = call.execute();
+            db = userResponse.body();
+            for(DataFromDB a: db) System.out.println(a.id+" "+a.name+" "+a.score+" "+a.kills+" "+a.date);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
